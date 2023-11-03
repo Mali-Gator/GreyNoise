@@ -1,0 +1,15 @@
+# Import the original CSV file
+$data = Import-Csv -Path 'C:\[INSERT FILE PATH]\input_ip_addresses.csv'
+
+# Determine the number of files that will be created
+$fileCount = [math]::Ceiling($data.Count / 1000)
+
+# Loop through the data, creating a new file every 1000 lines
+for ($i = 0; $i -lt $fileCount; $i++) {
+
+    # Select the next 1000 lines of data
+    $subset = $data[($i * 1000)..($i * 1000 + 999)]
+
+    # Export the data to a new CSV file
+    $subset | Export-Csv -Path "C:\[INSERT FILE PATH]\input_ip_addresses$i.csv" -NoTypeInformation
+}
